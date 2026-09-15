@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WA Direct 快速傳送訊息</title>
 
-    <!-- PWA & iOS 主畫面 Icon 設定 (新增這部分) -->
+    <!-- PWA & iOS 主畫面 Icon 設定 -->
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -82,7 +82,7 @@
     </style>
 </head>
 
-<body class="min-h-full flex flex-col bg-slate-100 text-slate-800 antialiased selection:bg-wa-light selection:text-white pb-12 relative select-none">
+<body class="min-h-full flex flex-col bg-slate-100 text-slate-800 antialiased selection:bg-wa-light selection:text-white select-none">
 
     <!-- Header Navigation -->
     <header class="bg-wa-dark text-white shadow-md sticky top-0 z-30">
@@ -313,14 +313,12 @@
     <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-8">
         <div class="max-w-4xl mx-auto px-4 text-center space-y-2">
             <p class="font-medium text-slate-300">WhatsApp 免存聯絡人直發工具 &copy; 2026 | 純網頁本地端應用</p>
-            <p class="text-slate-500 text-[11px]">免責聲明：本工具為獨立開發之網頁應用，與 WhatsApp Inc. 或 Meta Platforms, Inc. 無官方關聯。</p>
+            <p class="text-slate-500 text-[11px] inline-flex items-center justify-center flex-wrap gap-1">
+                <span>免責聲明：本工具為獨立開發之網頁應用，與 WhatsApp Inc. 或 Meta Platforms, Inc. 無官方關聯。</span>
+                <span class="font-mono text-slate-400 font-semibold bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700/80 ml-1">v1.4</span>
+            </p>
         </div>
     </footer>
-
-    <!-- 右下角版本號碼 (新增此處) -->
-    <div class="fixed bottom-3 right-4 text-[11px] font-mono font-medium text-slate-400 bg-slate-200/60 backdrop-blur-sm px-2 py-0.5 rounded-md border border-slate-300/40 select-none z-40">
-        v1.4
-    </div>
 
     <!-- QR Code Modal Overlay -->
     <div id="qrModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
