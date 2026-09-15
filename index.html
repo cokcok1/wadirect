@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>WhatsApp 免存聯絡人直發工具</title>
+  <title>WhatsApp Direct</title>
+
+  <!-- PWA & iOS 主畫面 Icon 設定 -->
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WhatsApp Direct">
+  <meta name="theme-color" content="#10b981">
 
   <!-- Tailwind CSS & FontAwesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,18 +26,22 @@
     }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4 relative select-none">
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col items-center justify-between p-4 relative pb-14 select-none">
 
-  <!-- 主卡片容器 -->
-  <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 my-auto">
+  <!-- 主內容容器 -->
+  <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 mt-2">
     
     <!-- Header 頁眉 -->
     <div class="bg-gradient-to-r from-emerald-500 to-green-600 p-6 text-white text-center relative">
-      <div class="inline-flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl mb-2 shadow-inner">
-        <i class="fa-brands fa-whatsapp text-3xl"></i>
+      <!-- 100% 本地安全 標籤 -->
+      <div class="flex justify-center items-center gap-2 mb-2">
+        <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5 border border-white/20">
+          <i class="fa-solid fa-shield-halved text-yellow-300"></i>
+          100% 本地安全
+        </span>
       </div>
-      <h1 class="text-xl font-bold tracking-wide">WhatsApp 免存聯絡人直發工具</h1>
-      <p class="text-xs text-emerald-100 mt-1 font-medium">免存聯絡人 ‧ 一秒直發訊息</p>
+      <h1 class="text-2xl font-black tracking-wide">WhatsApp Direct</h1>
+      <p class="text-xs text-emerald-100 mt-1 font-medium">準備發送訊息 ‧ 無伺服器紀錄</p>
     </div>
 
     <!-- 主要內容區 -->
@@ -116,7 +128,7 @@
         <p class="text-xs text-slate-400">使用相機掃瞄即刻打開對話</p>
       </div>
 
-      <!-- 歷史紀錄 -->
+      <!-- 最近發送紀錄 -->
       <div class="pt-3 border-t border-slate-100">
         <div class="flex items-center justify-between mb-2">
           <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">最近發送紀錄</span>
@@ -127,12 +139,41 @@
         </div>
       </div>
 
+      <!-- 常見問題與運作原理 -->
+      <div class="pt-4 border-t border-slate-100 space-y-3">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-question text-emerald-500"></i>
+          常見問題與運作原理
+        </h3>
+        <div class="space-y-2 text-xs text-slate-600">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <p class="font-bold text-slate-700 mb-1">💡 呢個 App 點樣運作？</p>
+            <p class="text-slate-500 leading-relaxed">利用 WhatsApp 官方提供的 <code class="bg-slate-200 px-1 rounded text-slate-700">wa.me</code> 深度連結（Deep Link）機制，無需加對方向通訊錄即可直接發起對話。</p>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <p class="font-bold text-slate-700 mb-1">🔒 個人資料會否流出？</p>
+            <p class="text-slate-500 leading-relaxed">所有運算與號碼轉換 100% 於你的瀏覽器本機進行，不設任何後端伺服器儲存或追蹤你的通話與訊息數據。</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <!-- 頁尾免責聲明 -->
+  <footer class="mt-6 text-center text-[11px] text-slate-400 space-y-1 px-4 max-w-md">
+    <p><strong>免責聲明：</strong>本工具為獨立開發之第三方實用工具，與 Meta Platforms / WhatsApp Inc. 無任何官方隸屬或贊助關係。</p>
+    <p class="text-slate-300">WhatsApp® 為 Meta Platforms, Inc. 之註冊商標。</p>
+  </footer>
 
   <!-- 提示訊息 Toast -->
   <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs py-2 px-4 rounded-full shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50">
     已成功複製！
+  </div>
+
+  <!-- 右下角版本號碼 -->
+  <div class="fixed bottom-3 right-4 text-[11px] font-mono font-medium text-slate-400 bg-slate-200/60 backdrop-blur-sm px-2 py-0.5 rounded-md border border-slate-300/40 select-none">
+    v1.3.0
   </div>
 
   <!-- JavaScript 業務邏輯 -->
