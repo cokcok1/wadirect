@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WA Direct - Send WhatsApp Message Instantly</title>
+
+    <!-- PWA & iOS Home Screen Icon -->
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WA Direct">
+    <meta name="theme-color" content="#075E54">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wa: {
+                            light: '#25D366',
+                            DEFAULT: '#128C7E',
+                            dark: '#075E54',
+                            chat: '#DCF8C6',
+                            bg: '#E5DDD5',
+                            accent: '#34B7F1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="min-h-full flex flex-col bg-slate-100 text-slate-800 antialiased selection:bg-wa-light selection:text-white select-none">
+
+    <!-- Header Navigation -->
+    <header class="bg-wa-dark text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-wa-light flex items-center justify-center shadow-lg text-white text-2xl">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-tight leading-tight flex items-center gap-2">
+                        WhatsApp Direct
+                    </h1>
+                    <p class="text-xs text-emerald-200 hidden sm:block">Start chat without saving contacts. 100% Private.</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <!-- Language Toggle Button -->
+                <a href="index.html" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 border border-emerald-600/50 transition-colors shadow-sm">
+                    <i class="fa-solid fa-globe mr-1.5 text-wa-light"></i> 繁體中文
+                </a>
+
+                <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-800/80 text-emerald-100 border border-emerald-600/50 shadow-sm">
+                    <i class="fa-solid fa-shield-halved mr-1.5 text-wa-light"></i> 100% Client-Side Safe
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 space-y-6">
+
+        <!-- Top Announcement Banner -->
+        <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 rounded-2xl p-4 text-white shadow-md flex items-start sm:items-center justify-between gap-3">
+            <div class="flex items-start sm:items-center space-x-3">
+                <div class="p-2.5 bg-white/10 rounded-xl text-xl shrink-0 backdrop-blur-md">
+                    <i class="fa-solid fa-bolt text-yellow-300"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-sm sm:text-base">No need to save contacts! One-click WhatsApp Chat</h2>
+                    <p class="text-xs sm:text-sm text-emerald-100 mt-0.5">Perfect for online inquiries, deliveries, temporary clients & business contacts.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace Container Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <section class="lg:col-span-7 space-y-6">
+                <div class="glass-card rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-wa"></i> Prepare Message
+                        </h2>
+                        <span class="text-xs font-medium text-slate-400 bg-slate-100 px-2 py-1 rounded-md">No Server Logging</span>
+                    </div>
+
+                    <form id="waForm" onsubmit="event.preventDefault(); openWhatsApp();" class="space-y-4">
+                        
+                        <!-- Country Code & Phone Number -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                Country Code & Phone Number <span class="text-rose-500">*</span>
+                            </label>
+                            
+                            <!-- Searchable Country Selector & Input Row -->
+                            <div class="space-y-2">
+                                <div class="relative">
+                                    <button type="button" id="countryDropdownBtn" onclick="toggleCountryDropdown()" class="w-full bg-slate-50 hover:bg-slate-100 border border-slate-300 text-slate-800 text-sm rounded-xl p-3 flex items-center justify-between transition-all focus:ring-2 focus:ring-wa focus:border-wa">
+                                        <span id="selectedCountryDisplay" class="font-medium flex items-center gap-2">
+                                            <span>🇨🇦</span>
+                                            <span class="font-bold">+1</span>
+                                            <span class="text-slate-500 text-xs">Canada / USA</span>
+                                        </span>
+                                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
+                                    </button>
+
+                                    <!-- Country Dropdown Menu -->
+                                    <div id="countryDropdownMenu" class="hidden absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-xl border border-slate-200 z-40 max-h-64 flex flex-col overflow-hidden">
+                                        <div class="p-2 border-b border-slate-100 bg-slate-50 sticky top-0">
+                                            <div class="relative">
+                                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                                <input type="text" id="countrySearchInput" oninput="filterCountries()" placeholder="Search country or code (e.g., 1, Canada, UK)..." class="w-full bg-white border border-slate-200 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-wa select-text">
+                                            </div>
+                                        </div>
+                                        <div id="countryOptionsList" class="overflow-y-auto divide-y divide-slate-50 flex-grow">
+                                            <!-- Country options populated dynamically -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Custom Country Code -->
+                                <div id="customCodeContainer" class="hidden">
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-semibold">+</span>
+                                        <input type="text" id="customCountryCode" placeholder="Enter custom code (e.g., 852)" oninput="updatePreview()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-wa focus:border-wa pl-7 p-3 font-semibold select-text">
+                                    </div>
+                                </div>
+
+                                <!-- Phone Number Input -->
+                                <div class="relative">
+                                    <input type="tel" id="phoneNumber" placeholder="Enter phone number (e.g., 403 123 4567)" oninput="handlePhoneInput()" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-base font-semibold rounded-xl focus:ring-2 focus:ring-wa focus:border-wa p-3 pr-10 placeholder:font-normal placeholder:text-slate-400 tracking-wide select-text" autocomplete="off">
+                                    
+                                    <button type="button" id="clearPhoneBtn" onclick="clearPhoneNumber()" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors">
+                                        <i class="fa-solid fa-circle-xmark text-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Live Number Preview & Validation Warning -->
+                            <div id="numberPreview" class="text-xs pt-0.5 flex items-center justify-between text-slate-500">
+                                <span id="formattedPreview">Full Number: <strong class="text-wa font-mono">+1 </strong></span>
+                                <span id="validationMsg" class="text-amber-600 font-medium hidden flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-info"></i> Please enter a valid phone number
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Preset Messages & Custom Input -->
+                        <div class="space-y-2 pt-1">
+                            <div class="flex items-center justify-between">
+                                <label for="messageText" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                    Preset Message <span class="text-slate-400 font-normal">(Optional)</span>
+                                </label>
+                                <span id="charCounter" class="text-xs font-mono text-slate-400">0 chars</span>
+                            </div>
+
+                            <textarea id="messageText" rows="3" oninput="updateCharCount()" placeholder="Type your message here. It will automatically fill the chat window upon launching..." class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-wa focus:border-wa p-3 transition-all resize-y select-text"></textarea>
+
+                            <!-- Quick Chips Tag Bar -->
+                            <div class="space-y-1.5 pt-1">
+                                <p class="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+                                    <i class="fa-solid fa-bolt text-wa text-xs"></i> Quick Preset Phrases (Click to apply):
+                                </p>
+                                <div class="flex flex-wrap gap-1.5" id="presetChipsContainer">
+                                    <!-- Chips rendered dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="pt-3 space-y-2.5">
+                            <button type="submit" id="mainLaunchBtn" class="w-full bg-wa hover:bg-wa-dark active:scale-[0.99] text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-emerald-600/25 flex items-center justify-center space-x-2 transition-all cursor-pointer text-base">
+                                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                                <span>Open WhatsApp Now</span>
+                            </button>
+
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <button type="button" onclick="copyWaLink()" class="w-full bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-semibold py-2.5 px-3 rounded-xl border border-slate-200 flex items-center justify-center space-x-2 text-xs sm:text-sm transition-all cursor-pointer">
+                                    <i class="fa-regular fa-copy text-wa"></i>
+                                    <span>Copy Link</span>
+                                </button>
+                                
+                                <button type="button" onclick="showQRCodeModal()" class="w-full bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-semibold py-2.5 px-3 rounded-xl border border-slate-200 flex items-center justify-center space-x-2 text-xs sm:text-sm transition-all cursor-pointer">
+                                    <i class="fa-solid fa-qrcode text-wa"></i>
+                                    <span>Generate QR Code</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="lg:col-span-5 space-y-6">
+                <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col h-full min-h-[380px]">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-clock-rotate-left text-wa text-base"></i>
+                            <h3 class="text-base font-bold text-slate-800">Recent History</h3>
+                        </div>
+                        <button onclick="confirmClearHistory()" class="text-xs text-slate-400 hover:text-rose-500 font-medium transition-colors flex items-center gap-1">
+                            <i class="fa-regular fa-trash-can"></i>Clear All
+                        </button>
+                    </div>
+
+                    <!-- History Item List -->
+                    <div id="historyList" class="flex-grow overflow-y-auto max-h-[360px] space-y-2 pr-1">
+                        <!-- History Items Rendered Here -->
+                    </div>
+
+                    <!-- Empty History Placeholder -->
+                    <div id="emptyHistory" class="py-12 text-center text-slate-400 space-y-2 flex flex-col items-center justify-center flex-grow">
+                        <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-300 text-xl mb-1">
+                            <i class="fa-solid fa-address-book"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-500">No History Yet</p>
+                        <p class="text-[11px] text-slate-400 max-w-[200px]">Phone numbers you contact will be stored locally in your browser for quick access.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- FAQ Section -->
+        <section class="glass-card rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
+            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                <i class="fa-solid fa-circle-question text-wa"></i> FAQ & How It Works
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/70 space-y-1.5">
+                    <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lock text-emerald-600"></i> Why no contact saving?
+                    </div>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        This tool utilizes WhatsApp's official API deep-link (`wa.me`) protocol to directly open chats without accessing or modifying your device address book.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/70 space-y-1.5">
+                    <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                        <i class="fa-solid fa-user-shield text-emerald-600"></i> Is my data private?
+                    </div>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        100% Secure! All records and message drafts remain strictly inside your local browser (LocalStorage). No backend servers collect your data.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/70 space-y-1.5">
+                    <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                        <i class="fa-solid fa-desktop text-emerald-600"></i> How to use on Desktop?
+                    </div>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        Clicking on desktop opens WhatsApp Web or Desktop App automatically. You can also generate a QR Code to scan with your phone camera.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-8">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-2">
+            <p class="font-medium text-slate-300">WhatsApp Direct &copy; 2026 | Pure Client-Side Web Application</p>
+            <p class="text-slate-500 text-[11px] inline-flex items-center justify-center flex-wrap gap-1">
+                <span>Disclaimer: Independent web app. Not affiliated with WhatsApp Inc. or Meta Platforms, Inc.</span>
+                <span class="font-mono text-slate-400 font-semibold bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700/80 ml-1">v1.4</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl transform scale-95 transition-transform duration-200" id="qrModalCard">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-qrcode text-wa"></i> Scan to Open Chat
+                </h3>
+                <button onclick="closeQRCodeModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <p class="text-xs text-slate-500">Scan with phone camera or WhatsApp scanner to start chatting:</p>
+
+            <div class="flex justify-center py-2 bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <div id="qrcodeCanvas" class="bg-white p-3 rounded-xl shadow-md"></div>
+            </div>
+
+            <p id="qrTargetNumber" class="text-xs font-mono font-bold text-slate-800 bg-emerald-50 py-1.5 px-3 rounded-lg border border-emerald-100 inline-block"></p>
+
+            <div class="pt-2">
+                <button onclick="closeQRCodeModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-sm transition-all">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-xl">
+            <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto text-xl">
+                <i class="fa-regular fa-trash-can"></i>
+            </div>
+            <div>
+                <h4 class="font-bold text-slate-800 text-sm">Clear all history?</h4>
+                <p class="text-xs text-slate-500 mt-1">This action cannot be undone. All local logs will be removed.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-1">
+                <button onclick="closeConfirmModal()" class="bg-slate-100 text-slate-700 font-semibold py-2 rounded-xl text-xs hover:bg-slate-200">Cancel</button>
+                <button onclick="executeClearHistory()" class="bg-rose-600 text-white font-semibold py-2 rounded-xl text-xs hover:bg-rose-700 shadow-sm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900 text-white text-xs sm:text-sm font-medium py-3 px-4 rounded-xl shadow-2xl flex items-center space-x-2.5 border border-slate-700">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-wa-light text-base"></i>
+            <span id="toastMsg">Link copied</span>
+        </div>
+    </div>
+
+    <script>
+        // Country Codes Dataset (Canada/USA placed first for English default)
+        const countryCodes = [
+            { code: '1', name: 'Canada / USA', flag: '🇨🇦' },
+            { code: '852', name: 'Hong Kong', flag: '🇭🇰' },
+            { code: '44', name: 'United Kingdom', flag: '🇬🇧' },
+            { code: '61', name: 'Australia', flag: '🇦🇺' },
+            { code: '65', name: 'Singapore', flag: '🇸🇬' },
+            { code: '886', name: 'Taiwan', flag: '🇹🇼' },
+            { code: '853', name: 'Macau', flag: '🇲🇴' },
+            { code: '86', name: 'China', flag: '🇨🇳' },
+            { code: '81', name: 'Japan', flag: '🇯🇵' },
+            { code: '60', name: 'Malaysia', flag: '🇲🇾' },
+            { code: '82', name: 'South Korea', flag: '🇰🇷' },
+            { code: '49', name: 'Germany', flag: '🇩🇪' },
+            { code: '33', name: 'France', flag: '🇫🇷' },
+            { code: '91', name: 'India', flag: '🇮🇳' },
+            { code: '63', name: 'Philippines', flag: '🇵🇭' },
+            { code: '84', name: 'Vietnam', flag: '🇻🇳' },
+            { code: '66', name: 'Thailand', flag: '🇹🇭' },
+            { code: '64', name: 'New Zealand', flag: '🇳🇿' },
+            { code: 'CUSTOM', name: 'Custom Code...', flag: '🌐' }
+        ];
+
+        // English Preset Messages
+        const presetMessages = [
+            "Hi! Are you available to chat?",
+            "Busy right now, will contact you later!",
+            "Hi, reaching out regarding your post.",
+            "Where and when can we meet?",
+            "Thanks! Appreciate it."
+        ];
+
+        const STORAGE_KEY = 'wa_direct_launcher_history_v2';
+        let currentSelectedCountry = countryCodes[0]; // Default to Canada (+1)
+
+        window.onload = function() {
+            renderCountryList(countryCodes);
+            initPresetChips();
+            loadHistory();
+            updatePreview();
+
+            document.addEventListener('click', function(e) {
+                const btn = document.getElementById('countryDropdownBtn');
+                const menu = document.getElementById('countryDropdownMenu');
+                if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        };
+
+        function renderCountryList(list) {
+            const container = document.getElementById('countryOptionsList');
+            if (list.length === 0) {
+                container.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center">No matching countries found</div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(c => `
+                <div onclick="selectCountry('${c.code}')" class="p-2.5 hover:bg-emerald-50 cursor-pointer flex items-center justify-between text-xs transition-colors">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">${c.flag}</span>
+                        <span class="font-semibold text-slate-800">${c.name}</span>
+                    </div>
+                    <span class="font-mono font-bold ${c.code === 'CUSTOM' ? 'text-slate-400' : 'text-wa'}">+${c.code}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleCountryDropdown() {
+            const menu = document.getElementById('countryDropdownMenu');
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                document.getElementById('countrySearchInput').focus();
+            }
+        }
+
+        function filterCountries() {
+            const query = document.getElementById('countrySearchInput').value.toLowerCase().trim();
+            const filtered = countryCodes.filter(c => 
+                c.name.toLowerCase().includes(query) || 
+                c.code.toLowerCase().includes(query)
+            );
+            renderCountryList(filtered);
+        }
+
+        function selectCountry(code) {
+            const country = countryCodes.find(c => c.code === code) || { code: code, name: 'Custom', flag: '🌐' };
+            currentSelectedCountry = country;
+            
+            const displayEl = document.getElementById('selectedCountryDisplay');
+            const customContainer = document.getElementById('customCodeContainer');
+
+            if (code === 'CUSTOM') {
+                displayEl.innerHTML = `<span>🌐</span> <span class="font-bold">Custom Code</span> <span class="text-slate-500 text-xs">(Enter below)</span>`;
+                customContainer.classList.remove('hidden');
+                document.getElementById('customCountryCode').focus();
+            } else {
+                displayEl.innerHTML = `<span>${country.flag}</span> <span class="font-bold">+${country.code}</span> <span class="text-slate-500 text-xs">${country.name}</span>`;
+                customContainer.classList.add('hidden');
+            }
+
+            document.getElementById('countryDropdownMenu').classList.add('hidden');
+            updatePreview();
+        }
+
+        function initPresetChips() {
+            const container = document.getElementById('presetChipsContainer');
+            container.innerHTML = presetMessages.map(msg => `
+                <button type="button" onclick="applyPresetChip('${escapeHtml(msg)}')" class="text-xs bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300 border border-slate-200 text-slate-600 py-1 px-2.5 rounded-lg transition-all duration-150 active:scale-95 font-medium">
+                    + ${msg}
+                </button>
+            `).join('');
+        }
+
+        function applyPresetChip(text) {
+            const textarea = document.getElementById('messageText');
+            if (textarea.value.trim() === '') {
+                textarea.value = text;
+            } else {
+                textarea.value += ' ' + text;
+            }
+            updateCharCount();
+            showToast('Preset applied');
+        }
+
+        function handlePhoneInput() {
+            const phoneInput = document.getElementById('phoneNumber');
+            const clearBtn = document.getElementById('clearPhoneBtn');
+            
+            if (phoneInput.value.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            updatePreview();
+        }
+
+        function clearPhoneNumber() {
+            const phoneInput = document.getElementById('phoneNumber');
+            phoneInput.value = '';
+            document.getElementById('clearPhoneBtn').classList.add('hidden');
+            phoneInput.focus();
+            updatePreview();
+        }
+
+        function getSanitizedData() {
+            let code = currentSelectedCountry.code;
+            if (code === 'CUSTOM') {
+                code = document.getElementById('customCountryCode').value.replace(/[^0-9]/g, '');
+            }
+
+            const rawPhone = document.getElementById('phoneNumber').value;
+            let cleanPhone = rawPhone.replace(/[^0-9]/g, '');
+            
+            if (cleanPhone.startsWith('0') && ['852', '886', '81', '44', '61'].includes(code)) {
+                cleanPhone = cleanPhone.replace(/^0+/, '');
+            }
+
+            return {
+                code: code || '1',
+                phone: cleanPhone,
+                rawPhone: rawPhone,
+                message: document.getElementById('messageText').value.trim()
+            };
+        }
+
+        function updatePreview() {
+            const data = getSanitizedData();
+            const previewEl = document.getElementById('formattedPreview');
+            const validationEl = document.getElementById('validationMsg');
+
+            previewEl.innerHTML = `Full Number: <strong class="text-wa font-mono">+${data.code} ${data.phone || '—'}</strong>`;
+
+            if (data.phone.length > 0 && data.phone.length < 5) {
+                validationEl.classList.remove('hidden');
+            } else {
+                validationEl.classList.add('hidden');
+            }
+        }
+
+        function updateCharCount() {
+            const text = document.getElementById('messageText').value;
+            document.getElementById('charCounter').textContent = `${text.length} chars`;
+        }
+
+        function buildWhatsAppURL(code, phone, message) {
+            const fullNumber = `${code}${phone}`;
+            let url = `https://wa.me/${fullNumber}`;
+            if (message) {
+                url += `?text=${encodeURIComponent(message)}`;
+            }
+            return url;
+        }
+
+        function openWhatsApp() {
+            const data = getSanitizedData();
+
+            if (!data.phone) {
+                showToast('Please enter a valid phone number', true);
+                document.getElementById('phoneNumber').focus();
+                return;
+            }
+
+            const url = buildWhatsAppURL(data.code, data.phone, data.message);
+            saveToHistory(data.code, data.phone, data.message);
+            window.open(url, '_blank');
+        }
+
+        function copyWaLink() {
+            const data = getSanitizedData();
+
+            if (!data.phone) {
+                showToast('Please enter a phone number first', true);
+                document.getElementById('phoneNumber').focus();
+                return;
+            }
+
+            const url = buildWhatsAppURL(data.code, data.phone, data.message);
+            copyToClipboard(url);
+            showToast('WhatsApp link copied!');
+            saveToHistory(data.code, data.phone, data.message);
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function getHistory() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch (e) {
+                console.error('LocalStorage read error', e);
+                return [];
+            }
+        }
+
+        function saveToHistory(code, phone, message) {
+            let history = getHistory();
+            const fullNumber = `+${code}${phone}`;
+
+            history = history.filter(item => item.fullNumber !== fullNumber);
+
+            const newItem = {
+                id: Date.now(),
+                code: code,
+                phone: phone,
+                fullNumber: fullNumber,
+                message: message,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString()
+            };
+
+            history.unshift(newItem);
+
+            if (history.length > 30) {
+                history = history.slice(0, 30);
+            }
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+            } catch (e) {
+                console.error('LocalStorage write error', e);
+            }
+
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const history = getHistory();
+            const container = document.getElementById('historyList');
+            const emptyEl = document.getElementById('emptyHistory');
+
+            if (history.length === 0) {
+                container.innerHTML = '';
+                emptyEl.classList.remove('hidden');
+                return;
+            }
+
+            emptyEl.classList.add('hidden');
+            container.innerHTML = history.map(item => `
+                <div class="bg-slate-50 hover:bg-emerald-50/60 p-3 rounded-xl border border-slate-200/80 transition-all flex items-center justify-between group">
+                    <div class="min-w-0 flex-1 pr-2 cursor-pointer" onclick="fillFromHistory('${item.code}', '${item.phone}', '${escapeHtml(item.message)}')">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-mono font-bold text-slate-800 text-sm group-hover:text-wa transition-colors">${item.fullNumber}</span>
+                            <span class="text-[10px] text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded font-medium">${item.timestamp}</span>
+                        </div>
+                        ${item.message ? `<p class="text-xs text-slate-500 truncate mt-0.5 font-normal"><i class="fa-regular fa-comment-dots mr-1 text-slate-400"></i>${escapeHtml(item.message)}</p>` : ''}
+                    </div>
+                    
+                    <div class="flex items-center space-x-1 shrink-0">
+                        <button type="button" onclick="quickLaunchHistory('${item.code}', '${item.phone}', '${escapeHtml(item.message)}')" title="Open WhatsApp" class="p-2 text-wa hover:bg-wa hover:text-white rounded-lg transition-colors">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                        </button>
+                        <button type="button" onclick="deleteHistoryItem(${item.id})" title="Delete" class="p-2 text-slate-300 hover:text-rose-500 rounded-lg transition-colors">
+                            <i class="fa-solid fa-xmark text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function fillFromHistory(code, phone, message) {
+            selectCountry(code);
+            document.getElementById('phoneNumber').value = phone;
+            document.getElementById('messageText').value = message || '';
+            
+            handlePhoneInput();
+            updateCharCount();
+            showToast('Number & message loaded');
+        }
+
+        function quickLaunchHistory(code, phone, message) {
+            const url = buildWhatsAppURL(code, phone, message);
+            window.open(url, '_blank');
+        }
+
+        function deleteHistoryItem(id) {
+            let history = getHistory();
+            history = history.filter(item => item.id !== id);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+            loadHistory();
+            showToast('Record deleted');
+        }
+
+        function confirmClearHistory() {
+            if (getHistory().length === 0) {
+                showToast('No history to clear', true);
+                return;
+            }
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+        }
+
+        function executeClearHistory() {
+            localStorage.removeItem(STORAGE_KEY);
+            closeConfirmModal();
+            loadHistory();
+            showToast('History cleared');
+        }
+
+        function showQRCodeModal() {
+            const data = getSanitizedData();
+
+            if (!data.phone) {
+                showToast('Please enter a phone number first', true);
+                document.getElementById('phoneNumber').focus();
+                return;
+            }
+
+            const url = buildWhatsAppURL(data.code, data.phone, data.message);
+            const qrContainer = document.getElementById('qrcodeCanvas');
+            
+            qrContainer.innerHTML = '';
+
+            try {
+                new QRCode(qrContainer, {
+                    text: url,
+                    width: 170,
+                    height: 170,
+                    colorDark: "#075E54",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            } catch (err) {
+                console.error("QR Code error:", err);
+            }
+
+            document.getElementById('qrTargetNumber').textContent = `+${data.code} ${data.phone}`;
+
+            const modal = document.getElementById('qrModal');
+            const modalCard = document.getElementById('qrModalCard');
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalCard.classList.remove('scale-95');
+                modalCard.classList.add('scale-100');
+            }, 10);
+
+            saveToHistory(data.code, data.phone, data.message);
+        }
+
+        function closeQRCodeModal() {
+            const modal = document.getElementById('qrModal');
+            const modalCard = document.getElementById('qrModalCard');
+
+            modal.classList.add('opacity-0');
+            modalCard.classList.remove('scale-100');
+            modalCard.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.textContent = message;
+
+            if (isError) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-400 text-base';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-check text-wa-light text-base';
+            }
+
+            toast.classList.remove('translate-y-16', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-16', 'opacity-0');
+            }, 2500);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
