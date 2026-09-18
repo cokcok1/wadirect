@@ -105,19 +105,6 @@
 
     <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 space-y-6">
 
-        <!-- Top Announcement Banner -->
-        <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 rounded-2xl p-4 text-white shadow-md flex items-start sm:items-center justify-between gap-3">
-            <div class="flex items-start sm:items-center space-x-3">
-                <div class="p-2.5 bg-white/10 rounded-xl text-xl shrink-0 backdrop-blur-md">
-                    <i class="fa-solid fa-bolt text-yellow-300"></i>
-                </div>
-                <div>
-                    <h2 class="font-bold text-sm sm:text-base">No need to save contacts! One-click WhatsApp Chat</h2>
-                    <p class="text-xs sm:text-sm text-emerald-100 mt-0.5">Perfect for online inquiries, deliveries, temporary clients & business contacts.</p>
-                </div>
-            </div>
-        </div>
-
         <!-- Main Workspace Container Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
@@ -188,28 +175,6 @@
                                 <span id="validationMsg" class="text-amber-600 font-medium hidden flex items-center gap-1">
                                     <i class="fa-solid fa-circle-info"></i> Please enter a valid phone number
                                 </span>
-                            </div>
-                        </div>
-
-                        <!-- Preset Messages & Custom Input -->
-                        <div class="space-y-2 pt-1">
-                            <div class="flex items-center justify-between">
-                                <label for="messageText" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                    Preset Message <span class="text-slate-400 font-normal">(Optional)</span>
-                                </label>
-                                <span id="charCounter" class="text-xs font-mono text-slate-400">0 chars</span>
-                            </div>
-
-                            <textarea id="messageText" rows="3" oninput="updateCharCount()" placeholder="Type your message here. It will automatically fill the chat window upon launching..." class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-wa focus:border-wa p-3 transition-all resize-y select-text"></textarea>
-
-                            <!-- Quick Chips Tag Bar -->
-                            <div class="space-y-1.5 pt-1">
-                                <p class="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
-                                    <i class="fa-solid fa-bolt text-wa text-xs"></i> Quick Preset Phrases (Click to apply):
-                                </p>
-                                <div class="flex flex-wrap gap-1.5" id="presetChipsContainer">
-                                    <!-- Chips rendered dynamically -->
-                                </div>
                             </div>
                         </div>
 
@@ -390,15 +355,6 @@
             { code: '66', name: 'Thailand', flag: '🇹🇭' },
             { code: '64', name: 'New Zealand', flag: '🇳🇿' },
             { code: 'CUSTOM', name: 'Custom Code...', flag: '🌐' }
-        ];
-
-        // English Preset Messages
-        const presetMessages = [
-            "Hi! Are you available to chat?",
-            "Busy right now, will contact you later!",
-            "Hi, reaching out regarding your post.",
-            "Where and when can we meet?",
-            "Thanks! Appreciate it."
         ];
 
         const STORAGE_KEY = 'wa_direct_launcher_history_v2';
