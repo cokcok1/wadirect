@@ -362,14 +362,13 @@
 
         window.onload = function() {
             renderCountryList(countryCodes);
-            initPresetChips();
             loadHistory();
             updatePreview();
 
             document.addEventListener('click', function(e) {
                 const btn = document.getElementById('countryDropdownBtn');
                 const menu = document.getElementById('countryDropdownMenu');
-                if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
                     menu.classList.add('hidden');
                 }
             });
@@ -377,6 +376,7 @@
 
         function renderCountryList(list) {
             const container = document.getElementById('countryOptionsList');
+            if (!container) return;
             if (list.length === 0) {
                 container.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center">No matching countries found</div>`;
                 return;
@@ -395,14 +395,18 @@
 
         function toggleCountryDropdown() {
             const menu = document.getElementById('countryDropdownMenu');
+            if (!menu) return;
             menu.classList.toggle('hidden');
             if (!menu.classList.contains('hidden')) {
-                document.getElementById('countrySearchInput').focus();
+                const searchInput = document.getElementById('countrySearchInput');
+                if (searchInput) searchInput.focus();
             }
         }
 
         function filterCountries() {
-            const query = document.getElementById('countrySearchInput').value.toLowerCase().trim();
+            const searchInput = document.getElementById('countrySearchInput');
+            if (!searchInput) return;
+            const query = searchInput.value.toLowerCase().trim();
             const filtered = countryCodes.filter(c => 
                 c.name.toLowerCase().includes(query) || 
                 c.code.toLowerCase().includes(query)
@@ -418,41 +422,24 @@
             const customContainer = document.getElementById('customCodeContainer');
 
             if (code === 'CUSTOM') {
-                displayEl.innerHTML = `<span>🌐</span> <span class="font-bold">Custom Code</span> <span class="text-slate-500 text-xs">(Enter below)</span>`;
-                customContainer.classList.remove('hidden');
-                document.getElementById('customCountryCode').focus();
+                if (displayEl) displayEl.innerHTML = `<span>🌐</span> <span class="font-bold">Custom Code</span> <span class="text-slate-500 text-xs">(Enter below)</span>`;
+                if (customContainer) customContainer.classList.remove('hidden');
+                const customCodeInput = document.getElementById('customCountryCode');
+                if (customCodeInput) customCodeInput.focus();
             } else {
-                displayEl.innerHTML = `<span>${country.flag}</span> <span class="font-bold">+${country.code}</span> <span class="text-slate-500 text-xs">${country.name}</span>`;
-                customContainer.classList.add('hidden');
+                if (displayEl) displayEl.innerHTML = `<span>${country.flag}</span> <span class="font-bold">+${country.code}</span> <span class="text-slate-500 text-xs">${country.name}</span>`;
+                if (customContainer) customContainer.classList.add('hidden');
             }
 
-            document.getElementById('countryDropdownMenu').classList.add('hidden');
+            const menu = document.getElementById('countryDropdownMenu');
+            if (menu) menu.classList.add('hidden');
             updatePreview();
-        }
-
-        function initPresetChips() {
-            const container = document.getElementById('presetChipsContainer');
-            container.innerHTML = presetMessages.map(msg => `
-                <button type="button" onclick="applyPresetChip('${escapeHtml(msg)}')" class="text-xs bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300 border border-slate-200 text-slate-600 py-1 px-2.5 rounded-lg transition-all duration-150 active:scale-95 font-medium">
-                    + ${msg}
-                </button>
-            `).join('');
-        }
-
-        function applyPresetChip(text) {
-            const textarea = document.getElementById('messageText');
-            if (textarea.value.trim() === '') {
-                textarea.value = text;
-            } else {
-                textarea.value += ' ' + text;
-            }
-            updateCharCount();
-            showToast('Preset applied');
         }
 
         function handlePhoneInput() {
             const phoneInput = document.getElementById('phoneNumber');
             const clearBtn = document.getElementById('clearPhoneBtn');
+            if (!phoneInput || !clearBtn) return;
             
             if (phoneInput.value.length > 0) {
                 clearBtn.classList.remove('hidden');
@@ -465,30 +452,38 @@
 
         function clearPhoneNumber() {
             const phoneInput = document.getElementById('phoneNumber');
-            phoneInput.value = '';
-            document.getElementById('clearPhoneBtn').classList.add('hidden');
-            phoneInput.focus();
+            const clearBtn = document.getElementById('clearPhoneBtn');
+            if (phoneInput) {
+                phoneInput.value = '';
+                phoneInput.focus();
+            }
+            if (clearBtn) clearBtn.classList.add('hidden');
             updatePreview();
         }
 
         function getSanitizedData() {
-            let code = currentSelectedCountry.code;
+            let code = currentSelectedCountry ? currentSelectedCountry.code : '1';
             if (code === 'CUSTOM') {
-                code = document.getElementById('customCountryCode').value.replace(/[^0-9]/g, '');
+                const customInput = document.getElementById('customCountryCode');
+                code = customInput ? customInput.value.replace(/[^0-9]/g, '') : '';
             }
 
-            const rawPhone = document.getElementById('phoneNumber').value;
+            const phoneInput = document.getElementById('phoneNumber');
+            const rawPhone = phoneInput ? phoneInput.value : '';
             let cleanPhone = rawPhone.replace(/[^0-9]/g, '');
             
             if (cleanPhone.startsWith('0') && ['852', '886', '81', '44', '61'].includes(code)) {
                 cleanPhone = cleanPhone.replace(/^0+/, '');
             }
 
+            const messageInput = document.getElementById('messageText');
+            const message = messageInput ? messageInput.value.trim() : '';
+
             return {
                 code: code || '1',
                 phone: cleanPhone,
                 rawPhone: rawPhone,
-                message: document.getElementById('messageText').value.trim()
+                message: message
             };
         }
 
@@ -497,18 +492,17 @@
             const previewEl = document.getElementById('formattedPreview');
             const validationEl = document.getElementById('validationMsg');
 
-            previewEl.innerHTML = `Full Number: <strong class="text-wa font-mono">+${data.code} ${data.phone || '—'}</strong>`;
-
-            if (data.phone.length > 0 && data.phone.length < 5) {
-                validationEl.classList.remove('hidden');
-            } else {
-                validationEl.classList.add('hidden');
+            if (previewEl) {
+                previewEl.innerHTML = `Full Number: <strong class="text-wa font-mono">+${data.code} ${data.phone || '—'}</strong>`;
             }
-        }
 
-        function updateCharCount() {
-            const text = document.getElementById('messageText').value;
-            document.getElementById('charCounter').textContent = `${text.length} chars`;
+            if (validationEl) {
+                if (data.phone.length > 0 && data.phone.length < 5) {
+                    validationEl.classList.remove('hidden');
+                } else {
+                    validationEl.classList.add('hidden');
+                }
+            }
         }
 
         function buildWhatsAppURL(code, phone, message) {
@@ -525,7 +519,8 @@
 
             if (!data.phone) {
                 showToast('Please enter a valid phone number', true);
-                document.getElementById('phoneNumber').focus();
+                const phoneInput = document.getElementById('phoneNumber');
+                if (phoneInput) phoneInput.focus();
                 return;
             }
 
@@ -539,7 +534,8 @@
 
             if (!data.phone) {
                 showToast('Please enter a phone number first', true);
-                document.getElementById('phoneNumber').focus();
+                const phoneInput = document.getElementById('phoneNumber');
+                if (phoneInput) phoneInput.focus();
                 return;
             }
 
@@ -620,6 +616,8 @@
             const container = document.getElementById('historyList');
             const emptyEl = document.getElementById('emptyHistory');
 
+            if (!container || !emptyEl) return;
+
             if (history.length === 0) {
                 container.innerHTML = '';
                 emptyEl.classList.remove('hidden');
@@ -651,12 +649,14 @@
 
         function fillFromHistory(code, phone, message) {
             selectCountry(code);
-            document.getElementById('phoneNumber').value = phone;
-            document.getElementById('messageText').value = message || '';
+            const phoneInput = document.getElementById('phoneNumber');
+            if (phoneInput) phoneInput.value = phone;
+            
+            const msgInput = document.getElementById('messageText');
+            if (msgInput) msgInput.value = message || '';
             
             handlePhoneInput();
-            updateCharCount();
-            showToast('Number & message loaded');
+            showToast('Number loaded');
         }
 
         function quickLaunchHistory(code, phone, message) {
@@ -677,11 +677,13 @@
                 showToast('No history to clear', true);
                 return;
             }
-            document.getElementById('confirmModal').classList.remove('hidden');
+            const modal = document.getElementById('confirmModal');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closeConfirmModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
+            const modal = document.getElementById('confirmModal');
+            if (modal) modal.classList.add('hidden');
         }
 
         function executeClearHistory() {
@@ -696,39 +698,44 @@
 
             if (!data.phone) {
                 showToast('Please enter a phone number first', true);
-                document.getElementById('phoneNumber').focus();
+                const phoneInput = document.getElementById('phoneNumber');
+                if (phoneInput) phoneInput.focus();
                 return;
             }
 
             const url = buildWhatsAppURL(data.code, data.phone, data.message);
             const qrContainer = document.getElementById('qrcodeCanvas');
             
-            qrContainer.innerHTML = '';
-
-            try {
-                new QRCode(qrContainer, {
-                    text: url,
-                    width: 170,
-                    height: 170,
-                    colorDark: "#075E54",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.M
-                });
-            } catch (err) {
-                console.error("QR Code error:", err);
+            if (qrContainer) {
+                qrContainer.innerHTML = '';
+                try {
+                    new QRCode(qrContainer, {
+                        text: url,
+                        width: 170,
+                        height: 170,
+                        colorDark: "#075E54",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                } catch (err) {
+                    console.error("QR Code error:", err);
+                }
             }
 
-            document.getElementById('qrTargetNumber').textContent = `+${data.code} ${data.phone}`;
+            const targetNum = document.getElementById('qrTargetNumber');
+            if (targetNum) targetNum.textContent = `+${data.code} ${data.phone}`;
 
             const modal = document.getElementById('qrModal');
             const modalCard = document.getElementById('qrModalCard');
 
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalCard.classList.remove('scale-95');
-                modalCard.classList.add('scale-100');
-            }, 10);
+            if (modal && modalCard) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalCard.classList.remove('scale-95');
+                    modalCard.classList.add('scale-100');
+                }, 10);
+            }
 
             saveToHistory(data.code, data.phone, data.message);
         }
@@ -737,19 +744,23 @@
             const modal = document.getElementById('qrModal');
             const modalCard = document.getElementById('qrModalCard');
 
-            modal.classList.add('opacity-0');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-95');
+            if (modal && modalCard) {
+                modal.classList.add('opacity-0');
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-95');
 
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 200);
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 200);
+            }
         }
 
         function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
             const toastIcon = document.getElementById('toastIcon');
+
+            if (!toast || !toastMsg || !toastIcon) return;
 
             toastMsg.textContent = message;
 
