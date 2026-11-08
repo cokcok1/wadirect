@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-HK" class="h-full">
+<html lang="en" class="h-full">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WA Direct 快速傳送訊息</title>
+    <title>WA Direct - Send WhatsApp Message Instantly</title>
 
-    <!-- PWA & iOS 主畫面 Icon 設定 -->
+    <!-- PWA & iOS Home Screen Icon -->
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -38,7 +37,7 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'Microsoft JhengHei', 'PingFang HK', 'sans-serif'],
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
                     }
                 }
             }
@@ -47,17 +46,15 @@
     
     <style>
         body {
-            font-family: 'Inter', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: #f8fafc;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Glassmorphism effects */
         .glass-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(226, 232, 240, 0.8);
         }
-        /* Custom scrollbars */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -72,13 +69,6 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
-        }
-        .pulse-subtle {
-            animation: pulse-border 2s infinite;
-        }
-        @keyframes pulse-border {
-            0%, 100% { border-color: rgba(37, 211, 102, 0.4); }
-            50% { border-color: rgba(37, 211, 102, 0.9); }
         }
     </style>
 </head>
@@ -96,35 +86,35 @@
                     <h1 class="text-lg md:text-xl font-bold tracking-tight leading-tight flex items-center gap-2">
                         WhatsApp Direct
                     </h1>
-                    <p class="text-xs text-emerald-200 hidden sm:block">輸入電話即刻開 Chat，保障個人隱私</p>
+                    <p class="text-xs text-emerald-200 hidden sm:block">Start chat without saving contacts. 100% Private.</p>
                 </div>
             </div>
             
             <div class="flex items-center space-x-2">
-    <!-- 語言切換按鈕 -->
-    <a href="indexE.html" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 border border-emerald-600/50 transition-colors shadow-sm">
-        <i class="fa-solid fa-globe mr-1.5 text-wa-light"></i> English
-    </a>
-    
-    <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-800/80 text-emerald-100 border border-emerald-600/50 shadow-sm">
-        <i class="fa-solid fa-shield-halved mr-1.5 text-wa-light"></i> 100%本地安全
-    </span>
-          </div>
+                <!-- Language Toggle Button -->
+                <a href="index.html" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 border border-emerald-600/50 transition-colors shadow-sm">
+                    <i class="fa-solid fa-globe mr-1.5 text-wa-light"></i> 繁體中文
+                </a>
+
+                <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-800/80 text-emerald-100 border border-emerald-600/50 shadow-sm">
+                    <i class="fa-solid fa-shield-halved mr-1.5 text-wa-light"></i> 100% Client-Side Safe
+                </span>
+            </div>
         </div>
     </header>
 
     <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 space-y-6">
 
-      <!-- Main Workspace Container Grid -->
+        <!-- Main Workspace Container Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
             <section class="lg:col-span-7 space-y-6">
                 <div class="glass-card rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
                     <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                         <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-paper-plane text-wa"></i> 準備發送訊息
+                            <i class="fa-solid fa-paper-plane text-wa"></i> Prepare Message
                         </h2>
-                        <span class="text-xs font-medium text-slate-400 bg-slate-100 px-2 py-1 rounded-md">無伺服器紀錄</span>
+                        <span class="text-xs font-medium text-slate-400 bg-slate-100 px-2 py-1 rounded-md">No Server Logging</span>
                     </div>
 
                     <form id="waForm" onsubmit="event.preventDefault(); openWhatsApp();" class="space-y-4">
@@ -132,7 +122,7 @@
                         <!-- Country Code & Phone Number -->
                         <div class="space-y-2">
                             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                國家 / 地區號碼與電話號碼 <span class="text-rose-500">*</span>
+                                Country Code & Phone Number <span class="text-rose-500">*</span>
                             </label>
                             
                             <!-- Searchable Country Selector & Input Row -->
@@ -140,9 +130,9 @@
                                 <div class="relative">
                                     <button type="button" id="countryDropdownBtn" onclick="toggleCountryDropdown()" class="w-full bg-slate-50 hover:bg-slate-100 border border-slate-300 text-slate-800 text-sm rounded-xl p-3 flex items-center justify-between transition-all focus:ring-2 focus:ring-wa focus:border-wa">
                                         <span id="selectedCountryDisplay" class="font-medium flex items-center gap-2">
-                                            <span>🇭🇰</span>
-                                            <span class="font-bold">+852</span>
-                                            <span class="text-slate-500 text-xs">香港 (Hong Kong)</span>
+                                            <span>🇨🇦</span>
+                                            <span class="font-bold">+1</span>
+                                            <span class="text-slate-500 text-xs">Canada / USA</span>
                                         </span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
                                     </button>
@@ -152,7 +142,7 @@
                                         <div class="p-2 border-b border-slate-100 bg-slate-50 sticky top-0">
                                             <div class="relative">
                                                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                                                <input type="text" id="countrySearchInput" oninput="filterCountries()" placeholder="搜尋國家或區號 (例: 852, 台灣, Canada)..." class="w-full bg-white border border-slate-200 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-wa select-text">
+                                                <input type="text" id="countrySearchInput" oninput="filterCountries()" placeholder="Search country or code (e.g., 1, Canada, UK)..." class="w-full bg-white border border-slate-200 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-wa select-text">
                                             </div>
                                         </div>
                                         <div id="countryOptionsList" class="overflow-y-auto divide-y divide-slate-50 flex-grow">
@@ -161,17 +151,17 @@
                                     </div>
                                 </div>
 
-                                <!-- Custom Country Code (Hidden unless selected) -->
+                                <!-- Custom Country Code -->
                                 <div id="customCodeContainer" class="hidden">
                                     <div class="relative">
                                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-semibold">+</span>
-                                        <input type="text" id="customCountryCode" placeholder="輸入自訂區號 (例如 852)" oninput="updatePreview()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-wa focus:border-wa pl-7 p-3 font-semibold select-text">
+                                        <input type="text" id="customCountryCode" placeholder="Enter custom code (e.g., 852)" oninput="updatePreview()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-wa focus:border-wa pl-7 p-3 font-semibold select-text">
                                     </div>
                                 </div>
 
                                 <!-- Phone Number Input -->
                                 <div class="relative">
-                                    <input type="tel" id="phoneNumber" placeholder="請輸入電話號碼 (例：9123 4567)" oninput="handlePhoneInput()" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-base font-semibold rounded-xl focus:ring-2 focus:ring-wa focus:border-wa p-3 pr-10 placeholder:font-normal placeholder:text-slate-400 tracking-wide select-text" autocomplete="off">
+                                    <input type="tel" id="phoneNumber" placeholder="Enter phone number (e.g., 403 123 4567)" oninput="handlePhoneInput()" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-base font-semibold rounded-xl focus:ring-2 focus:ring-wa focus:border-wa p-3 pr-10 placeholder:font-normal placeholder:text-slate-400 tracking-wide select-text" autocomplete="off">
                                     
                                     <button type="button" id="clearPhoneBtn" onclick="clearPhoneNumber()" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors">
                                         <i class="fa-solid fa-circle-xmark text-lg"></i>
@@ -181,41 +171,29 @@
 
                             <!-- Live Number Preview & Validation Warning -->
                             <div id="numberPreview" class="text-xs pt-0.5 flex items-center justify-between text-slate-500">
-                                <span id="formattedPreview">完整號碼：<strong class="text-wa font-mono">+852 </strong></span>
+                                <span id="formattedPreview">Full Number: <strong class="text-wa font-mono">+1 </strong></span>
                                 <span id="validationMsg" class="text-amber-600 font-medium hidden flex items-center gap-1">
-                                    <i class="fa-solid fa-circle-info"></i> 請輸入有效號碼
+                                    <i class="fa-solid fa-circle-info"></i> Please enter a valid phone number
                                 </span>
                             </div>
                         </div>
 
-                        <!-- Preset Messages & Custom Input -->
-                        <div class="space-y-2 pt-1">
-                            <div class="flex items-center justify-between">
-                                <label for="messageText" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                    預設訊息內容 <span class="text-slate-400 font-normal">(選填)</span>
-                                </label>
-                                <span id="charCounter" class="text-xs font-mono text-slate-400">0 字</span>
-                            </div>
-
-                            <textarea id="messageText" rows="3" oninput="updateCharCount()" placeholder="輸入你想發送的訊息內容，點擊「開啟 WhatsApp」時會自動填入對話視窗..." class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-wa focus:border-wa p-3 transition-all resize-y select-text"></textarea>
-
-                 
                         <!-- Action Buttons -->
                         <div class="pt-3 space-y-2.5">
                             <button type="submit" id="mainLaunchBtn" class="w-full bg-wa hover:bg-wa-dark active:scale-[0.99] text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-emerald-600/25 flex items-center justify-center space-x-2 transition-all cursor-pointer text-base">
                                 <i class="fa-brands fa-whatsapp text-2xl"></i>
-                                <span>立即開啟 WhatsApp</span>
+                                <span>Open WhatsApp Now</span>
                             </button>
 
                             <div class="grid grid-cols-2 gap-2.5">
                                 <button type="button" onclick="copyWaLink()" class="w-full bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-semibold py-2.5 px-3 rounded-xl border border-slate-200 flex items-center justify-center space-x-2 text-xs sm:text-sm transition-all cursor-pointer">
                                     <i class="fa-regular fa-copy text-wa"></i>
-                                    <span>複製 WhatsApp 連結</span>
+                                    <span>Copy Link</span>
                                 </button>
                                 
                                 <button type="button" onclick="showQRCodeModal()" class="w-full bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-semibold py-2.5 px-3 rounded-xl border border-slate-200 flex items-center justify-center space-x-2 text-xs sm:text-sm transition-all cursor-pointer">
                                     <i class="fa-solid fa-qrcode text-wa"></i>
-                                    <span>產生 QR Code</span>
+                                    <span>Generate QR Code</span>
                                 </button>
                             </div>
                         </div>
@@ -223,17 +201,16 @@
                 </div>
             </section>
 
-            <!-- History & Sidebar Section -->
+            <!-- History Section -->
             <section class="lg:col-span-5 space-y-6">
-                <!-- Recent Search History Card -->
                 <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col h-full min-h-[380px]">
                     <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
                         <div class="flex items-center space-x-2">
                             <i class="fa-solid fa-clock-rotate-left text-wa text-base"></i>
-                            <h3 class="text-base font-bold text-slate-800">最近傳送紀錄</h3>
+                            <h3 class="text-base font-bold text-slate-800">Recent History</h3>
                         </div>
                         <button onclick="confirmClearHistory()" class="text-xs text-slate-400 hover:text-rose-500 font-medium transition-colors flex items-center gap-1">
-                            <i class="fa-regular fa-trash-can"></i>清空全部
+                            <i class="fa-regular fa-trash-can"></i>Clear All
                         </button>
                     </div>
 
@@ -247,44 +224,44 @@
                         <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-300 text-xl mb-1">
                             <i class="fa-solid fa-address-book"></i>
                         </div>
-                        <p class="text-xs font-semibold text-slate-500">暫無傳送紀錄</p>
-                        <p class="text-[11px] text-slate-400 max-w-[200px]">你發起過的號碼將會儲存在瀏覽器本機，方便隨時再次聯絡。</p>
+                        <p class="text-xs font-semibold text-slate-500">No History Yet</p>
+                        <p class="text-[11px] text-slate-400 max-w-[200px]">Phone numbers you contact will be stored locally in your browser for quick access.</p>
                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- Feature Highlights & FAQ Accordion -->
+        <!-- FAQ Section -->
         <section class="glass-card rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
             <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                <i class="fa-solid fa-circle-question text-wa"></i> 常見問題與運作原理
+                <i class="fa-solid fa-circle-question text-wa"></i> FAQ & How It Works
             </h3>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/70 space-y-1.5">
                     <div class="font-bold text-slate-800 flex items-center gap-1.5">
-                        <i class="fa-solid fa-lock text-emerald-600"></i> 為什麼不用儲存電話？
+                        <i class="fa-solid fa-lock text-emerald-600"></i> Why no contact saving?
                     </div>
                     <p class="text-slate-600 text-xs leading-relaxed">
-                        本工具使用 WhatsApp 官方 API 深度連結 (`wa.me`) 技術，直接傳送指令給 WhatsApp 開啟對話，完全不存取或修改你的通訊錄。
+                        This tool utilizes WhatsApp's official API deep-link (`wa.me`) protocol to directly open chats without accessing or modifying your device address book.
                     </p>
                 </div>
 
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/70 space-y-1.5">
                     <div class="font-bold text-slate-800 flex items-center gap-1.5">
-                        <i class="fa-solid fa-user-shield text-emerald-600"></i> 會否洩漏隱私資料？
+                        <i class="fa-solid fa-user-shield text-emerald-600"></i> Is my data private?
                     </div>
                     <p class="text-slate-600 text-xs leading-relaxed">
-                        100% 安全！所有發送紀錄與文字均只儲存在你的瀏覽器本機 (LocalStorage) 中，沒有任何後端伺服器收集你的資料。
+                        100% Secure! All records and message drafts remain strictly inside your local browser (LocalStorage). No backend servers collect your data.
                     </p>
                 </div>
 
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/70 space-y-1.5">
                     <div class="font-bold text-slate-800 flex items-center gap-1.5">
-                        <i class="fa-solid fa-desktop text-emerald-600"></i> 電腦版如何配合使用？
+                        <i class="fa-solid fa-desktop text-emerald-600"></i> How to use on Desktop?
                     </div>
                     <p class="text-slate-600 text-xs leading-relaxed">
-                        在電腦上點擊會自動打開 WhatsApp Web 或 Desktop 應用程式；亦可點擊「產生 QR Code」讓手機相機直接掃碼開啟。
+                        Clicking on desktop opens WhatsApp Web or Desktop App automatically. You can also generate a QR Code to scan with your phone camera.
                     </p>
                 </div>
             </div>
@@ -295,27 +272,27 @@
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-8">
         <div class="max-w-4xl mx-auto px-4 text-center space-y-2">
-            <p class="font-medium text-slate-300">WhatsApp Direct &copy; 2026 | 純網頁本地端應用</p>
+            <p class="font-medium text-slate-300">WhatsApp Direct &copy; 2026 | Pure Client-Side Web Application</p>
             <p class="text-slate-500 text-[11px] inline-flex items-center justify-center flex-wrap gap-1">
-                <span>免責聲明：本工具為獨立開發之網頁應用，與 WhatsApp Inc. 或 Meta Platforms, Inc. 無官方關聯。</span>
+                <span>Disclaimer: Independent web app. Not affiliated with WhatsApp Inc. or Meta Platforms, Inc.</span>
                 <span class="font-mono text-slate-400 font-semibold bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700/80 ml-1">v1.4</span>
             </p>
         </div>
     </footer>
 
-    <!-- QR Code Modal Overlay -->
+    <!-- QR Code Modal -->
     <div id="qrModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl transform scale-95 transition-transform duration-200" id="qrModalCard">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
-                    <i class="fa-solid fa-qrcode text-wa"></i> 手機掃碼開啟對話
+                    <i class="fa-solid fa-qrcode text-wa"></i> Scan to Open Chat
                 </h3>
                 <button onclick="closeQRCodeModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
             
-            <p class="text-xs text-slate-500">使用手機相機或 WhatsApp 掃描器，即可直接開啟聊天視窗：</p>
+            <p class="text-xs text-slate-500">Scan with phone camera or WhatsApp scanner to start chatting:</p>
 
             <div class="flex justify-center py-2 bg-slate-50 rounded-xl p-4 border border-slate-100">
                 <div id="qrcodeCanvas" class="bg-white p-3 rounded-xl shadow-md"></div>
@@ -325,88 +302,92 @@
 
             <div class="pt-2">
                 <button onclick="closeQRCodeModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-sm transition-all">
-                    關閉
+                    Close
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Confirm Modal Overlay -->
+    <!-- Confirm Modal -->
     <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-xl">
             <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto text-xl">
                 <i class="fa-regular fa-trash-can"></i>
             </div>
             <div>
-                <h4 class="font-bold text-slate-800 text-sm">確認清除所有紀錄？</h4>
-                <p class="text-xs text-slate-500 mt-1">此動作無法復原，本機儲存的歷史將全部移除。</p>
+                <h4 class="font-bold text-slate-800 text-sm">Clear all history?</h4>
+                <p class="text-xs text-slate-500 mt-1">This action cannot be undone. All local logs will be removed.</p>
             </div>
             <div class="grid grid-cols-2 gap-2 pt-1">
-                <button onclick="closeConfirmModal()" class="bg-slate-100 text-slate-700 font-semibold py-2 rounded-xl text-xs hover:bg-slate-200">取消</button>
-                <button onclick="executeClearHistory()" class="bg-rose-600 text-white font-semibold py-2 rounded-xl text-xs hover:bg-rose-700 shadow-sm">確定清空</button>
+                <button onclick="closeConfirmModal()" class="bg-slate-100 text-slate-700 font-semibold py-2 rounded-xl text-xs hover:bg-slate-200">Cancel</button>
+                <button onclick="executeClearHistory()" class="bg-rose-600 text-white font-semibold py-2 rounded-xl text-xs hover:bg-rose-700 shadow-sm">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- Floating Toast Notification Overlay -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
         <div class="bg-slate-900 text-white text-xs sm:text-sm font-medium py-3 px-4 rounded-xl shadow-2xl flex items-center space-x-2.5 border border-slate-700">
             <i id="toastIcon" class="fa-solid fa-circle-check text-wa-light text-base"></i>
-            <span id="toastMsg">訊息內容已複製</span>
+            <span id="toastMsg">Link copied</span>
         </div>
     </div>
 
     <script>
-        // Comprehensive Country Codes Dataset
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered!'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+
+        // Country Codes Dataset (Canada/USA placed first for English default)
         const countryCodes = [
-            { code: '852', name: '香港 (Hong Kong)', flag: '🇭🇰' },
-            { code: '1', name: '加拿大 / 美國 (Canada/USA)', flag: '🇨🇦' },
-            { code: '853', name: '澳門 (Macau)', flag: '🇲🇴' },
-            { code: '886', name: '台灣 (Taiwan)', flag: '🇹🇼' },
-            { code: '86', name: '中國大陸 (China)', flag: '🇨🇳' },
-            { code: '44', name: '英國 (United Kingdom)', flag: '🇬🇧' },
-            { code: '61', name: '澳洲 (Australia)', flag: '🇦🇺' },
-            { code: '65', name: '新加坡 (Singapore)', flag: '🇸🇬' },
-            { code: '81', name: '日本 (Japan)', flag: '🇯🇵' },
-            { code: '60', name: '馬來西亞 (Malaysia)', flag: '🇲🇾' },
-            { code: '82', name: '韓國 (South Korea)', flag: '🇰🇷' },
-            { code: '49', name: '德國 (Germany)', flag: '🇩🇪' },
-            { code: '33', name: '法國 (France)', flag: '🇫🇷' },
-            { code: '91', name: '印度 (India)', flag: '🇮🇳' },
-            { code: '63', name: '菲律賓 (Philippines)', flag: '🇵🇭' },
-            { code: '84', name: '越南 (Vietnam)', flag: '🇻🇳' },
-            { code: '66', name: '泰國 (Thailand)', flag: '🇹🇭' },
-            { code: '64', name: '紐西蘭 (New Zealand)', flag: '🇳🇿' },
-            { code: 'CUSTOM', name: '自訂其他區號...', flag: '🌐' }
+            { code: '1', name: 'Canada / USA', flag: '🇨🇦' },
+            { code: '852', name: 'Hong Kong', flag: '🇭🇰' },
+            { code: '44', name: 'United Kingdom', flag: '🇬🇧' },
+            { code: '61', name: 'Australia', flag: '🇦🇺' },
+            { code: '65', name: 'Singapore', flag: '🇸🇬' },
+            { code: '886', name: 'Taiwan', flag: '🇹🇼' },
+            { code: '853', name: 'Macau', flag: '🇲🇴' },
+            { code: '86', name: 'China', flag: '🇨🇳' },
+            { code: '81', name: 'Japan', flag: '🇯🇵' },
+            { code: '60', name: 'Malaysia', flag: '🇲🇾' },
+            { code: '82', name: 'South Korea', flag: '🇰🇷' },
+            { code: '49', name: 'Germany', flag: '🇩🇪' },
+            { code: '33', name: 'France', flag: '🇫🇷' },
+            { code: '91', name: 'India', flag: '🇮🇳' },
+            { code: '63', name: 'Philippines', flag: '🇵🇭' },
+            { code: '84', name: 'Vietnam', flag: '🇻🇳' },
+            { code: '66', name: 'Thailand', flag: '🇹🇭' },
+            { code: '64', name: 'New Zealand', flag: '🇳🇿' },
+            { code: 'CUSTOM', name: 'Custom Code...', flag: '🌐' }
         ];
 
-       
-
         const STORAGE_KEY = 'wa_direct_launcher_history_v2';
-        let currentSelectedCountry = countryCodes[0];
+        let currentSelectedCountry = countryCodes[0]; // Default to Canada (+1)
 
-        // App Initialization
         window.onload = function() {
             renderCountryList(countryCodes);
-            initPresetChips();
             loadHistory();
             updatePreview();
 
-            // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
                 const btn = document.getElementById('countryDropdownBtn');
                 const menu = document.getElementById('countryDropdownMenu');
-                if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
                     menu.classList.add('hidden');
                 }
             });
         };
 
-        // Render Country Dropdown Options
         function renderCountryList(list) {
             const container = document.getElementById('countryOptionsList');
+            if (!container) return;
             if (list.length === 0) {
-                container.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center">找不到匹配國家或區號</div>`;
+                container.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center">No matching countries found</div>`;
                 return;
             }
 
@@ -423,14 +404,18 @@
 
         function toggleCountryDropdown() {
             const menu = document.getElementById('countryDropdownMenu');
+            if (!menu) return;
             menu.classList.toggle('hidden');
             if (!menu.classList.contains('hidden')) {
-                document.getElementById('countrySearchInput').focus();
+                const searchInput = document.getElementById('countrySearchInput');
+                if (searchInput) searchInput.focus();
             }
         }
 
         function filterCountries() {
-            const query = document.getElementById('countrySearchInput').value.toLowerCase().trim();
+            const searchInput = document.getElementById('countrySearchInput');
+            if (!searchInput) return;
+            const query = searchInput.value.toLowerCase().trim();
             const filtered = countryCodes.filter(c => 
                 c.name.toLowerCase().includes(query) || 
                 c.code.toLowerCase().includes(query)
@@ -439,48 +424,31 @@
         }
 
         function selectCountry(code) {
-            const country = countryCodes.find(c => c.code === code) || { code: code, name: '自訂', flag: '🌐' };
+            const country = countryCodes.find(c => c.code === code) || { code: code, name: 'Custom', flag: '🌐' };
             currentSelectedCountry = country;
             
             const displayEl = document.getElementById('selectedCountryDisplay');
             const customContainer = document.getElementById('customCodeContainer');
 
             if (code === 'CUSTOM') {
-                displayEl.innerHTML = `<span>🌐</span> <span class="font-bold">自訂區號</span> <span class="text-slate-500 text-xs">(請在下方輸入)</span>`;
-                customContainer.classList.remove('hidden');
-                document.getElementById('customCountryCode').focus();
+                if (displayEl) displayEl.innerHTML = `<span>🌐</span> <span class="font-bold">Custom Code</span> <span class="text-slate-500 text-xs">(Enter below)</span>`;
+                if (customContainer) customContainer.classList.remove('hidden');
+                const customCodeInput = document.getElementById('customCountryCode');
+                if (customCodeInput) customCodeInput.focus();
             } else {
-                displayEl.innerHTML = `<span>${country.flag}</span> <span class="font-bold">+${country.code}</span> <span class="text-slate-500 text-xs">${country.name.split(' ')[0]}</span>`;
-                customContainer.classList.add('hidden');
+                if (displayEl) displayEl.innerHTML = `<span>${country.flag}</span> <span class="font-bold">+${country.code}</span> <span class="text-slate-500 text-xs">${country.name}</span>`;
+                if (customContainer) customContainer.classList.add('hidden');
             }
 
-            document.getElementById('countryDropdownMenu').classList.add('hidden');
+            const menu = document.getElementById('countryDropdownMenu');
+            if (menu) menu.classList.add('hidden');
             updatePreview();
-        }
-
-        function initPresetChips() {
-            const container = document.getElementById('presetChipsContainer');
-            container.innerHTML = presetMessages.map(msg => `
-                <button type="button" onclick="applyPresetChip('${escapeHtml(msg)}')" class="text-xs bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300 border border-slate-200 text-slate-600 py-1 px-2.5 rounded-lg transition-all duration-150 active:scale-95 font-medium">
-                    + ${msg}
-                </button>
-            `).join('');
-        }
-
-        function applyPresetChip(text) {
-            const textarea = document.getElementById('messageText');
-            if (textarea.value.trim() === '') {
-                textarea.value = text;
-            } else {
-                textarea.value += ' ' + text;
-            }
-            updateCharCount();
-            showToast('已代入快捷短句');
         }
 
         function handlePhoneInput() {
             const phoneInput = document.getElementById('phoneNumber');
             const clearBtn = document.getElementById('clearPhoneBtn');
+            if (!phoneInput || !clearBtn) return;
             
             if (phoneInput.value.length > 0) {
                 clearBtn.classList.remove('hidden');
@@ -493,19 +461,24 @@
 
         function clearPhoneNumber() {
             const phoneInput = document.getElementById('phoneNumber');
-            phoneInput.value = '';
-            document.getElementById('clearPhoneBtn').classList.add('hidden');
-            phoneInput.focus();
+            const clearBtn = document.getElementById('clearPhoneBtn');
+            if (phoneInput) {
+                phoneInput.value = '';
+                phoneInput.focus();
+            }
+            if (clearBtn) clearBtn.classList.add('hidden');
             updatePreview();
         }
 
         function getSanitizedData() {
-            let code = currentSelectedCountry.code;
+            let code = currentSelectedCountry ? currentSelectedCountry.code : '1';
             if (code === 'CUSTOM') {
-                code = document.getElementById('customCountryCode').value.replace(/[^0-9]/g, '');
+                const customInput = document.getElementById('customCountryCode');
+                code = customInput ? customInput.value.replace(/[^0-9]/g, '') : '';
             }
 
-            const rawPhone = document.getElementById('phoneNumber').value;
+            const phoneInput = document.getElementById('phoneNumber');
+            const rawPhone = phoneInput ? phoneInput.value : '';
             let cleanPhone = rawPhone.replace(/[^0-9]/g, '');
             
             if (cleanPhone.startsWith('0') && ['852', '886', '81', '44', '61'].includes(code)) {
@@ -513,10 +486,10 @@
             }
 
             return {
-                code: code || '852',
+                code: code || '1',
                 phone: cleanPhone,
                 rawPhone: rawPhone,
-                message: document.getElementById('messageText').value.trim()
+                message: ''
             };
         }
 
@@ -525,18 +498,17 @@
             const previewEl = document.getElementById('formattedPreview');
             const validationEl = document.getElementById('validationMsg');
 
-            previewEl.innerHTML = `完整號碼：<strong class="text-wa font-mono">+${data.code} ${data.phone || '—'}</strong>`;
-
-            if (data.phone.length > 0 && data.phone.length < 5) {
-                validationEl.classList.remove('hidden');
-            } else {
-                validationEl.classList.add('hidden');
+            if (previewEl) {
+                previewEl.innerHTML = `Full Number: <strong class="text-wa font-mono">+${data.code} ${data.phone || '—'}</strong>`;
             }
-        }
 
-        function updateCharCount() {
-            const text = document.getElementById('messageText').value;
-            document.getElementById('charCounter').textContent = `${text.length} 字`;
+            if (validationEl) {
+                if (data.phone.length > 0 && data.phone.length < 5) {
+                    validationEl.classList.remove('hidden');
+                } else {
+                    validationEl.classList.add('hidden');
+                }
+            }
         }
 
         function buildWhatsAppURL(code, phone, message) {
@@ -552,8 +524,9 @@
             const data = getSanitizedData();
 
             if (!data.phone) {
-                showToast('請輸入有效的電話號碼', true);
-                document.getElementById('phoneNumber').focus();
+                showToast('Please enter a valid phone number', true);
+                const phoneInput = document.getElementById('phoneNumber');
+                if (phoneInput) phoneInput.focus();
                 return;
             }
 
@@ -566,14 +539,15 @@
             const data = getSanitizedData();
 
             if (!data.phone) {
-                showToast('請先輸入電話號碼', true);
-                document.getElementById('phoneNumber').focus();
+                showToast('Please enter a phone number first', true);
+                const phoneInput = document.getElementById('phoneNumber');
+                if (phoneInput) phoneInput.focus();
                 return;
             }
 
             const url = buildWhatsAppURL(data.code, data.phone, data.message);
             copyToClipboard(url);
-            showToast('WhatsApp 連結已複製！');
+            showToast('WhatsApp link copied!');
             saveToHistory(data.code, data.phone, data.message);
         }
 
@@ -648,6 +622,8 @@
             const container = document.getElementById('historyList');
             const emptyEl = document.getElementById('emptyHistory');
 
+            if (!container || !emptyEl) return;
+
             if (history.length === 0) {
                 container.innerHTML = '';
                 emptyEl.classList.remove('hidden');
@@ -662,14 +638,13 @@
                             <span class="font-mono font-bold text-slate-800 text-sm group-hover:text-wa transition-colors">${item.fullNumber}</span>
                             <span class="text-[10px] text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded font-medium">${item.timestamp}</span>
                         </div>
-                        ${item.message ? `<p class="text-xs text-slate-500 truncate mt-0.5 font-normal"><i class="fa-regular fa-comment-dots mr-1 text-slate-400"></i>${escapeHtml(item.message)}</p>` : ''}
                     </div>
                     
                     <div class="flex items-center space-x-1 shrink-0">
-                        <button type="button" onclick="quickLaunchHistory('${item.code}', '${item.phone}', '${escapeHtml(item.message)}')" title="開啟 WhatsApp" class="p-2 text-wa hover:bg-wa hover:text-white rounded-lg transition-colors">
+                        <button type="button" onclick="quickLaunchHistory('${item.code}', '${item.phone}', '${escapeHtml(item.message)}')" title="Open WhatsApp" class="p-2 text-wa hover:bg-wa hover:text-white rounded-lg transition-colors">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
                         </button>
-                        <button type="button" onclick="deleteHistoryItem(${item.id})" title="刪除紀錄" class="p-2 text-slate-300 hover:text-rose-500 rounded-lg transition-colors">
+                        <button type="button" onclick="deleteHistoryItem(${item.id})" title="Delete" class="p-2 text-slate-300 hover:text-rose-500 rounded-lg transition-colors">
                             <i class="fa-solid fa-xmark text-sm"></i>
                         </button>
                     </div>
@@ -679,12 +654,11 @@
 
         function fillFromHistory(code, phone, message) {
             selectCountry(code);
-            document.getElementById('phoneNumber').value = phone;
-            document.getElementById('messageText').value = message || '';
+            const phoneInput = document.getElementById('phoneNumber');
+            if (phoneInput) phoneInput.value = phone;
             
             handlePhoneInput();
-            updateCharCount();
-            showToast('已成功代入該號碼及訊息');
+            showToast('Number loaded');
         }
 
         function quickLaunchHistory(code, phone, message) {
@@ -697,66 +671,73 @@
             history = history.filter(item => item.id !== id);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
             loadHistory();
-            showToast('紀錄已刪除');
+            showToast('Record deleted');
         }
 
         function confirmClearHistory() {
             if (getHistory().length === 0) {
-                showToast('目前暫無任何紀錄', true);
+                showToast('No history to clear', true);
                 return;
             }
-            document.getElementById('confirmModal').classList.remove('hidden');
+            const modal = document.getElementById('confirmModal');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closeConfirmModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
+            const modal = document.getElementById('confirmModal');
+            if (modal) modal.classList.add('hidden');
         }
 
         function executeClearHistory() {
             localStorage.removeItem(STORAGE_KEY);
             closeConfirmModal();
             loadHistory();
-            showToast('歷史紀錄已全部清空');
+            showToast('History cleared');
         }
 
         function showQRCodeModal() {
             const data = getSanitizedData();
 
             if (!data.phone) {
-                showToast('請先輸入電話號碼', true);
-                document.getElementById('phoneNumber').focus();
+                showToast('Please enter a phone number first', true);
+                const phoneInput = document.getElementById('phoneNumber');
+                if (phoneInput) phoneInput.focus();
                 return;
             }
 
             const url = buildWhatsAppURL(data.code, data.phone, data.message);
             const qrContainer = document.getElementById('qrcodeCanvas');
             
-            qrContainer.innerHTML = '';
-
-            try {
-                new QRCode(qrContainer, {
-                    text: url,
-                    width: 170,
-                    height: 170,
-                    colorDark: "#075E54",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.M
-                });
-            } catch (err) {
-                console.error("QR Code error:", err);
+            if (qrContainer) {
+                qrContainer.innerHTML = '';
+                try {
+                    new QRCode(qrContainer, {
+                        text: url,
+                        width: 170,
+                        height: 170,
+                        colorDark: "#075E54",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                } catch (err) {
+                    console.error("QR Code error:", err);
+                }
             }
 
-            document.getElementById('qrTargetNumber').textContent = `+${data.code} ${data.phone}`;
+            const targetNum = document.getElementById('qrTargetNumber');
+            if (targetNum) targetNum.textContent = `+${data.code} ${data.phone}`;
 
             const modal = document.getElementById('qrModal');
             const modalCard = document.getElementById('qrModalCard');
 
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalCard.classList.remove('scale-95');
-                modalCard.classList.add('scale-100');
-            }, 10);
+            if (modal && modalCard) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalCard.classList.remove('scale-95');
+                    modalCard.classList.add('scale-100');
+                }, 10);
+            }
 
             saveToHistory(data.code, data.phone, data.message);
         }
@@ -765,19 +746,23 @@
             const modal = document.getElementById('qrModal');
             const modalCard = document.getElementById('qrModalCard');
 
-            modal.classList.add('opacity-0');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-95');
+            if (modal && modalCard) {
+                modal.classList.add('opacity-0');
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-95');
 
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 200);
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 200);
+            }
         }
 
         function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
             const toastIcon = document.getElementById('toastIcon');
+
+            if (!toast || !toastMsg || !toastIcon) return;
 
             toastMsg.textContent = message;
 
