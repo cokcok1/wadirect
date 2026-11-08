@@ -334,15 +334,6 @@
     </div>
 
     <script>
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registered!'))
-                    .catch(err => console.log('Service Worker registration failed:', err));
-            });
-        }
-
         // Country Codes Dataset (Canada/USA placed first for English default)
         const countryCodes = [
             { code: '1', name: 'Canada / USA', flag: '🇨🇦' },
@@ -485,11 +476,14 @@
                 cleanPhone = cleanPhone.replace(/^0+/, '');
             }
 
+            const messageInput = document.getElementById('messageText');
+            const message = messageInput ? messageInput.value.trim() : '';
+
             return {
                 code: code || '1',
                 phone: cleanPhone,
                 rawPhone: rawPhone,
-                message: ''
+                message: message
             };
         }
 
@@ -638,6 +632,7 @@
                             <span class="font-mono font-bold text-slate-800 text-sm group-hover:text-wa transition-colors">${item.fullNumber}</span>
                             <span class="text-[10px] text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded font-medium">${item.timestamp}</span>
                         </div>
+                        ${item.message ? `<p class="text-xs text-slate-500 truncate mt-0.5 font-normal"><i class="fa-regular fa-comment-dots mr-1 text-slate-400"></i>${escapeHtml(item.message)}</p>` : ''}
                     </div>
                     
                     <div class="flex items-center space-x-1 shrink-0">
@@ -656,6 +651,9 @@
             selectCountry(code);
             const phoneInput = document.getElementById('phoneNumber');
             if (phoneInput) phoneInput.value = phone;
+            
+            const msgInput = document.getElementById('messageText');
+            if (msgInput) msgInput.value = message || '';
             
             handlePhoneInput();
             showToast('Number loaded');
